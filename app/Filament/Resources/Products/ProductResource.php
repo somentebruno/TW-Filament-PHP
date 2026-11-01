@@ -14,6 +14,8 @@ use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Textarea;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Tables\Columns\TextColumn;
@@ -34,7 +36,16 @@ class ProductResource extends Resource
 
     public static function form(Schema $schema): Schema
     {
-        return ProductForm::configure($schema);
+        return $schema->components([
+            TextInput::make('name')->required()
+            ->label('Nome do produto'),
+            TextInput::make('slug')->required()
+            ->label('Slug do produto'),
+            Textarea::make('description')
+                ->required()
+                ->label('Descrição do produto')
+                ->columnSpanFull(),
+        ]);
     }
 
     public static function infolist(Schema $schema): Schema
