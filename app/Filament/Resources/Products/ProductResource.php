@@ -14,6 +14,7 @@ use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\Select;
 use Filament\Schemas\Components\Fieldset;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Textarea;
@@ -47,6 +48,9 @@ class ProductResource extends Resource
                 ->label('Slug do produto')
                 ->alphaDash(),
                     ]),
+            Select::make('category_id')
+                ->label('Categoria do produto')
+                ->relationship('category', 'name'),
             RichEditor::make('description')
                 ->required()
                 ->label('Descrição do produto')
@@ -74,6 +78,9 @@ class ProductResource extends Resource
                 //     ->words(4)
                 //     ->label('Descrição')
                 //     ->searchable(),
+                TextColumn::make('category.name')
+                    ->label('Categoria')
+                    ->searchable(),
                 TextColumn::make('created_at')
                     ->label('Criado em')
                     ->dateTime('d/m/Y h:i')
