@@ -14,8 +14,10 @@ use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Forms\Components\DatePicker;
+use Filament\Schemas\Components\Fieldset;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\RichEditor;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Tables\Columns\TextColumn;
@@ -37,11 +39,15 @@ class ProductResource extends Resource
     public static function form(Schema $schema): Schema
     {
         return $schema->components([
-            TextInput::make('name')->required()
-            ->label('Nome do produto'),
-            TextInput::make('slug')->required()
-            ->label('Slug do produto'),
-            Textarea::make('description')
+            Fieldset::make('Informações Básicas')
+                ->schema([
+                TextInput::make('name')->required()
+                ->label('Nome do produto'),
+                TextInput::make('slug')->required()
+                ->label('Slug do produto')
+                ->alphaDash(),
+                    ]),
+            RichEditor::make('description')
                 ->required()
                 ->label('Descrição do produto')
                 ->columnSpanFull(),
@@ -60,14 +66,14 @@ class ProductResource extends Resource
             ->columns([
                 TextColumn::make('name')
                     ->label('Nome')
-                    ->searchable()
-                    ->description(fn (Product $record): string => $record->description),
+                    ->searchable(),
+                    // ->description(fn (Product $record): string => $record->description),
                 TextColumn::make('slug')
                     ->searchable(),
-                TextColumn::make('description')
-                    ->words(4)
-                    ->label('Descrição')
-                    ->searchable(),
+                // TextColumn::make('description')
+                //     ->words(4)
+                //     ->label('Descrição')
+                //     ->searchable(),
                 TextColumn::make('created_at')
                     ->label('Criado em')
                     ->dateTime('d/m/Y h:i')
