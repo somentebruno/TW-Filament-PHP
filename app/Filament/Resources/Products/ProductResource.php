@@ -50,7 +50,12 @@ class ProductResource extends Resource
                     ]),
             Select::make('category_id')
                 ->label('Categoria do produto')
-                ->relationship('category', 'name'),
+                ->relationship('category', 'name')
+                ->createOptionForm([
+                    TextInput::make('name')
+                        ->label('Nome da categoria')
+                        ->required()
+                ]),
             RichEditor::make('description')
                 ->required()
                 ->label('Descrição do produto')
